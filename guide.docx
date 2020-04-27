@@ -110,10 +110,31 @@ Set-Up the proper webhook in the Github repository:
 
 By now, you should be able to push code changes to the repo and see Jenkins automatically trigger the job:
 
-On the console output of the trigger job you should look for something like this:
 
+On your gitbash and VS code make the necessary changes like I did for example >>
+$ git status
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        guide.docx
+
+$ git add .
+
+$ git commit -m "new guide doc added"
+
+$ git push -f github master
+
+$ git status
+On branch master
+nothing to commit, working tree clean
+
+Now check github UI for the commit confirmation >>
  
 
-In the server you should be able to look for the change in the app folder like this, and then use nano or another editor to check if the change is there, like I did before:
 
+Go to Jenkins UI On the console output of the trigger job you should look for something like this:
  
+
+
+In the server you should be able to look for the change in the app folder like this, and then use cat, nano or another editor to check if the change is there, like I did before:
+
