@@ -1,0 +1,66 @@
+version: '3'
+
+services:
+
+  apache:
+    container_name: "apache"
+    image: bitnami/apache:latest
+    restart: unless-stopped
+    ports:
+      - 80:8080
+    volumes:
+      - ./apache/app.conf:/vhosts/app.conf:ro
+      - ./app:/app
+    networks:
+      - net
+
+  mysql:
+    container_name: "mysql"
+    restart: unless-stopped
+    image: mysql:5.6
+    environment:
+      - MYSQL_DATABASE
+      - MYSQL_PASSWORD
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_USER
+    volumes:
+      - data:/var/lib/mysql
+      - ./mysql/mysql.sql:/docker-entrypoint-initdb.d/mysql.sql
+    ports:
+      - "3306:3306"
+    networks:
+      - net
+
+  php-fpm:
+    container_name: "php"
+    build: ./php
+    restart: unless-stopped
+    image: bitnami/php-fpm
+    volumes:
+      - ./app:/app
+    networks:
+      - net
+
+  jenkins:
+    container_name: "jenkins"
+    build:
+      context: ./jenkins
+      dockerfile: Dockerfile
+    image: jenkins/jenkins:lts
+    volumes:
+       - ./jenkins_data:/var/jenkins_home
+       - /var/run/docker.sock:/var/run/docker.sock
+       - ./app:/app
+    ports:
+      - '8080:8080'
+      - '50000:50000'
+    networks:
+      - net
+
+
+volumes:
+  data:
+    driver: local
+
+networks:
+  net:
