@@ -138,3 +138,5 @@ Go to Jenkins UI On the console output of the trigger job you should look for so
 
 In the server you should be able to look for the change in the app folder like this, and then use cat, nano or another editor to check if the change is there, like I did before:
 
+
+
